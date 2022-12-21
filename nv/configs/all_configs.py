@@ -59,6 +59,6 @@ class TrainConfig:
     beta_2 = 0.99
     lr_decay = 0.999
     
-    save_step = 100
+    save_step = 500
 
     batch_expand_size = 1
