@@ -82,7 +82,7 @@ class MRF(nn.Module):
                 out = block(x)
             else:
                 out += block(x)
-        return out / len(self.blocks)    # in source code the authors take mean instead of sum, as they claim in the papaer
+        return out # / len(self.blocks)    # in source code the authors take mean instead of sum, as they claim in the papaer
 
 
 class Generator(nn.Module):
