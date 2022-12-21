@@ -120,8 +120,8 @@ class Generator(nn.Module):
             self.mrfs.append(
                 MRF(
                     cur_channels // 2,
-                    config.res_blocks_kernel_sizes[i],
-                    config.res_blocks_dilations[i]
+                    config.res_blocks_kernel_sizes,
+                    config.res_blocks_dilations
                 )
             )
             cur_channels //= 2
