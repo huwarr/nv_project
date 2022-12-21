@@ -47,6 +47,9 @@ class MelSpectrogram(nn.Module):
         :return: Shape is [B, n_mels, T']
         """
 
+        audio = F.pad(audio.unsqueeze(1), (int((self.config.n_fft - self.config.hop_length)/2), int((self.config.n_fft - self.config.hop_length)/2)), mode='reflect')
+        audio = audio.squeeze(1)
+
         mel = self.mel_spectrogram(audio) \
             .clamp_(min=1e-5) \
             .log_()

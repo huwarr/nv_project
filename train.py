@@ -105,14 +105,6 @@ for epoch in range(train_config.epochs):
             # Run generator
             wav_fake = generator(mel_specs)
             mel_fake = wav_to_mel(wav_fake.squeeze(1))
-            
-            max_len = max(wav_targets.shape[-1], wav_fake.shape[-1])
-            wav_targets = F.pad(wav_targets, (0, max_len - wav_targets.shape[-1]))
-            wav_fake = F.pad(wav_fake, (0, max_len - wav_fake.shape[-1]))
-
-            max_len = max(mel_specs.shape[-1], mel_fake.shape[-1])
-            mel_specs = F.pad(mel_specs, (0, max_len - mel_specs.shape[-1]))
-            mel_fake = F.pad(mel_fake, (0, max_len - mel_fake.shape[-1]))
 
             # Update discriminators
             optimizer_d.zero_grad()
