@@ -77,20 +77,11 @@ optimizer_d = torch.optim.AdamW(
     betas=(train_config.beta_1, train_config.beta_2)
 )
 
-scheduler_g = torch.optim.lr_scheduler.ExponentialLR(
-    optimizer_g, gamma=train_config.lr_decay
-)
-scheduler_d = torch.optim.lr_scheduler.ExponentialLR(
-    optimizer_d, gamma=train_config.lr_decay
-)
-
-# scheduler = OneCycleLR(optimizer, **{
-#     "steps_per_epoch": len(training_loader) * train_config.batch_expand_size,
-#     "epochs": train_config.epochs,
-#     "anneal_strategy": "cos",
-#     "max_lr": train_config.learning_rate,
-#     "pct_start": 0.1
-# })
+# вот так можно было задать расписание из авторской реализации:
+# scheduler_g = torch.optim.lr_scheduler.ExponentialLR(
+#     optimizer_g, gamma=train_config.lr_decay
+# )
+# но мы им больше не пользуемся, это просто пример на память :)
 
 # logger
 logger = WanDBWriter(train_config)
@@ -152,13 +143,6 @@ for epoch in range(train_config.epochs):
 
             logger.add_scalar("generator loss", loss_g.detach().cpu().item())
             logger.add_scalar("discriminator loss", loss_d.detach().cpu().item())
-
-            # Clipping gradients to avoid gradient explosion
-            # nn.utils.clip_grad_norm_(
-            #     generator.parameters(), train_config.grad_clip_thresh
-            # )
-            # scheduler_d.step()
-            # scheduler_g.step()
 
             if current_step % train_config.save_step == 0:
                 torch.save(

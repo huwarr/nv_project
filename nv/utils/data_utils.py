@@ -24,8 +24,7 @@ class MelSpectrogram(nn.Module):
             f_min=config.f_min,
             f_max=config.f_max,
             n_mels=config.n_mels,
-            center=False,
-            # pad=config.pad_value
+            center=False
         )
 
         # The is no way to set power in constructor in 0.5.0 version.
@@ -47,9 +46,6 @@ class MelSpectrogram(nn.Module):
         :param audio: Expected shape is [B, T]
         :return: Shape is [B, n_mels, T']
         """
-
-        # audio = F.pad(audio.unsqueeze(1), ((self.config.n_fft - self.config.hop_length) // 2, (self.config.n_fft - self.config.hop_length) // 2), mode='reflect')
-        # audio = audio.squeeze(1)
 
         mel = self.mel_spectrogram(audio) \
             .clamp_(min=1e-5) \
