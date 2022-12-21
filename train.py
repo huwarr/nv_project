@@ -115,10 +115,10 @@ for epoch in range(train_config.epochs):
             # Update discriminators
             optimizer_d.zero_grad()
             # MPD
-            out_real, out_fake, _, _ = mpd(wav, wav_fake.detach())
+            out_real, out_fake, _, _ = mpd(wav_targets, wav_fake.detach())
             loss_mpd = discriminator_loss(out_real, out_fake)
             # MSD
-            out_real, out_fake, _, _ = msd(wav, wav_fake.detach())
+            out_real, out_fake, _, _ = msd(wav_targets, wav_fake.detach())
             loss_msd = discriminator_loss(out_real, out_fake)
             loss_d = loss_mpd + loss_msd
             loss_d.backward()
@@ -128,8 +128,8 @@ for epoch in range(train_config.epochs):
             optimizer_g.zero_grad()
             loss_mel = melspec_loss(mel_specs, mel_fake)
 
-            _, out_fake_mpd, features_real_mpd, features_fake_mpd = mpd(wav, wav_fake)
-            _, out_fake_msd, features_real_msd, features_fake_msd = mpd(wav, wav_fake)
+            _, out_fake_mpd, features_real_mpd, features_fake_mpd = mpd(wav_targets, wav_fake)
+            _, out_fake_msd, features_real_msd, features_fake_msd = mpd(wav_targets, wav_fake)
 
             loss_features_mpd = features_loss(features_real_mpd, features_fake_mpd)
             loss_features_msd = features_loss(features_real_msd, features_fake_msd)
