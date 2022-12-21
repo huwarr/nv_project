@@ -157,8 +157,8 @@ for epoch in range(train_config.epochs):
             # nn.utils.clip_grad_norm_(
             #     generator.parameters(), train_config.grad_clip_thresh
             # )
-            scheduler_d.step()
-            scheduler_g.step()
+            # scheduler_d.step()
+            # scheduler_g.step()
 
             if current_step % train_config.save_step == 0:
                 torch.save(
