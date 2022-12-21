@@ -6,6 +6,8 @@ from tqdm.auto import tqdm
 import torchaudio
 import librosa
 
+MAX_LEN = 1024 * 8
+
 
 class MelSpectrogram(nn.Module):
     def __init__(self, config):
@@ -59,7 +61,7 @@ def get_data_to_buffer(train_config, mel_config):
     for i in tqdm(range(len(paths_to_wavs))):
         wav_path = os.path.join(train_config.wavs_path, paths_to_wavs[i])
         wav, sr = torchaudio.load(wav_path)
-        wav = wav.squeeze().float()
+        wav = wav.squeeze().float()[..., :MAX_LEN]
 
         # Expected shape is [B, T]
         mel = wav_to_mel(wav.unsqueeze(0)).squeeze(0)
