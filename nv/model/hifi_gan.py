@@ -160,8 +160,8 @@ class Generator(nn.Module):
         x = self.in_block(x)
         for i in range(len(self.up_samples)):
             x = self.up_samples[i](self.activation(x))
-            x = self.mrfs(x)
-        x = self.out_block(self.activation())
+            x = self.mrfs[i](x)
+        x = self.out_block(self.activation(x))
         return F.tanh(x)
 
 

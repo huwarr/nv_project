@@ -17,17 +17,17 @@ def pad_1D_tensor(inputs, PAD=0):
 
 def pad_2D_tensor(inputs, maxlen=None, pad_value=0):
     def pad(x, max_len):
-        if x.size(0) > max_len:
+        if x.size(1) > max_len:
             raise ValueError("not max_len")
 
         s = x.size(1)
-        x_padded = F.pad(x, (0, 0, 0, max_len-x.size(0)), value=pad_value)
-        return x_padded[:, :s]
+        x_padded = F.pad(x, (0, max_len-x.size(1)), value=pad_value)
+        return x_padded
 
     if maxlen:
         output = torch.stack([pad(x, maxlen) for x in inputs])
     else:
-        max_len = max(x.size(0) for x in inputs)
+        max_len = max(x.size(1) for x in inputs)
         output = torch.stack([pad(x, max_len) for x in inputs])
     return output
 
@@ -51,7 +51,7 @@ def reprocess_tensor(batch, cut_list):
 def collate_fn(batch):
     train_config = TrainConfig()
 
-    len_arr = np.array([d["text"].size(0) for d in batch])
+    len_arr = np.array([d["mel_spec"].size(0) for d in batch])
     index_arr = np.argsort(-len_arr)
     batchsize = len(batch)
     real_batchsize = batchsize // train_config.batch_expand_size
