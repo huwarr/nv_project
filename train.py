@@ -151,10 +151,10 @@ for epoch in range(train_config.epochs):
 
             if current_step % train_config.save_step == 0:
                 torch.save(
-                    {'generator': model.state_dict(), 'optimizer': optimizer_g.state_dict()}, 
+                    {'generator': generator.state_dict(), 'optimizer': optimizer_g.state_dict()}, 
                     os.path.join(train_config.checkpoint_path, 'generator_%d.pth.tar' % current_step))
                 torch.save(
-                    {'msd': msd.state_dict(), 'mpd': mpd.state_dict(),, 'optimizer': optimizer_d.state_dict()}, 
+                    {'msd': msd.state_dict(), 'mpd': mpd.state_dict(), 'optimizer': optimizer_d.state_dict()}, 
                     os.path.join(train_config.checkpoint_path, 'discriminator_%d.pth.tar' % current_step))
                 print("save model at step %d ..." % current_step)
 
@@ -167,6 +167,6 @@ torch.save(
     'generator.pth.tar'
 )
 
-run_full_synthesis(pitch_min, pitch_max, energy_min, energy_max, checkpoint_path='generator.pth.tar', logger=logger)
+run_full_synthesis(checkpoint_path='generator.pth.tar', logger=logger)
 
 logger.finish_wandb_run()

@@ -44,7 +44,7 @@ class ResBlock(nn.Module):
     def __init_weights__(self):
         def init_func(m):
             classname = m.__class__.__name__
-            if hasattr(m, 'weight') and (classname.find('Conv') != -1:
+            if hasattr(m, 'weight') and classname.find('Conv') != -1:
                 nn.init.normal_(m.weight.data, 0.0, 0.01)
         self.apply(init_func)
     
@@ -117,7 +117,7 @@ class Generator(nn.Module):
                     )
                 )
             )
-            self.mrfs.append()
+            self.mrfs.append(
                 MRF(
                     cur_channels // 2,
                     config.res_blocks_kernel_sizes[i],
@@ -145,7 +145,7 @@ class Generator(nn.Module):
     def __init_weights__(self, block):
         def init_func(m):
             classname = m.__class__.__name__
-            if hasattr(m, 'weight') and (classname.find('Conv') != -1:
+            if hasattr(m, 'weight') and classname.find('Conv') != -1:
                 nn.init.normal_(m.weight.data, 0.0, 0.01)
         block.apply(init_func)
 
@@ -165,7 +165,7 @@ class Generator(nn.Module):
         return F.tanh(x)
 
 
-def PeriodDiscriminator(nn.Module):
+class PeriodDiscriminator(nn.Module):
     def __init__(self, period, channel_sizes, kernel_size, stride):
         super().__init__()
 
@@ -228,7 +228,7 @@ def PeriodDiscriminator(nn.Module):
         return torch.flatten(x, 1, -1), features
 
 
-class MPD(torch.nn.Module):
+class MPD(nn.Module):
     def __init__(self, config):
         super().__init__()
         
@@ -258,7 +258,7 @@ class MPD(torch.nn.Module):
         return out_real, out_fake, features_real, features_fake
 
 
-def ScaleDiscriminator(nn.Module):
+class ScaleDiscriminator(nn.Module):
     def __init__(
         self, channel_sizes, kernel_sizes, strides, groups, paddings, is_first=False
     ):
@@ -313,7 +313,7 @@ def ScaleDiscriminator(nn.Module):
         return torch.flatten(x, 1, -1), features
 
 
-class MSD(torch.nn.Module):
+class MSD(nn.Module):
     def __init__(self, config):
         super().__init__()
 
@@ -322,11 +322,11 @@ class MSD(torch.nn.Module):
         for i in range(n_layers):
             self.layers.append(
                 ScaleDiscriminator(
-                    channel_sizes=config.msd_channel_sizes, 
-                    kernel_sizes=config.msd_kernel_sizes, 
-                    strides=config.msd_strides, 
-                    groups=config.msd_groups,
-                    paddings=config.msd_paddings
+                    config.msd_channel_sizes, 
+                    config.msd_kernel_sizes, 
+                    config.msd_strides, 
+                    config.msd_groups,
+                    config.msd_paddings,
                     is_first=(i == 0)
                 )
             )

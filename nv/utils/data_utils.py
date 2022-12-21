@@ -1,13 +1,14 @@
 import os
 
 import torch
+from torch import nn
 from tqdm.auto import tqdm
 import torchaudio
 import librosa
 
 
 class MelSpectrogram(nn.Module):
-    def __init__(self, config: MelSpectrogramConfig):
+    def __init__(self, config):
         super(MelSpectrogram, self).__init__()
 
         self.config = config

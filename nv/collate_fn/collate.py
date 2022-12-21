@@ -43,7 +43,7 @@ def reprocess_tensor(batch, cut_list):
 
     out = {
         "mel_spec": mel_specs,
-        "wav": wav
+        "wav": wavs
     }
     return out
 

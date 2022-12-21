@@ -13,8 +13,8 @@ class DiscriminatorLoss(nn.Module):
             r = out_real[i]
             f = out_fake[i]
 
-            loss_real = self.mse_loss(r, torh.ones_like(r))
-            loss_fake = self.mse_loss(f, torh.zeros_like(f))
+            loss_real = self.mse_loss(r, torch.ones_like(r))
+            loss_fake = self.mse_loss(f, torch.zeros_like(f))
 
             loss += loss_real + loss_fake
         return loss
