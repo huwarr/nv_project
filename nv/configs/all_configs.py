@@ -21,7 +21,7 @@ class HiFiGANConfig:
     in_channels = 80    # n_mels
 
     upsample_kernel_sizes = [16, 16, 4, 4]
-    upsample_hidden_dim = 512
+    upsample_hidden_dim = 128
 
     res_blocks_kernel_sizes = [3, 7, 11]
     res_blocks_dilations = [[1, 3, 5], [1, 3, 5], [1, 3, 5]]
@@ -52,7 +52,7 @@ class TrainConfig:
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
     batch_size = 16
-    epochs = 20
+    epochs = 60
 
     learning_rate = 2e-4
     beta_1 = 0.8
