@@ -2,7 +2,7 @@
 
 An attempt to implement and train `HiFiGAN`.
 
-[checkpoint](...)
+[checkpoint](https://drive.google.com/file/d/1HIPqkIErxzjlA-dFmQO82szjW0M_5u4A/view?usp=share_link)
 
 **synthesised audio:** in `generated samples` folder
 
